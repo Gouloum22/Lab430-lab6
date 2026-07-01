@@ -20,10 +20,7 @@ class DeleteOrderHandler(Handler):
         """Call StoreManager to delete order"""
         try:
             response = requests.delete(
-                f'{config.API_GATEWAY_URL}/store-manager-api/orders',
-                json={
-                    "order_id": self.order_id
-                },
+                f'{config.API_GATEWAY_URL}/store-manager-api/orders/{self.order_id}',
                 headers={'Content-Type': 'application/json'}
             )
 

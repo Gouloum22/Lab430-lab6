@@ -20,7 +20,7 @@ class DecreaseStockHandler(Handler):
     def run(self):
         """Call StoreManager to check out from stock"""
         try:
-            response = requests.post(
+            response = requests.put(
                 f'{config.API_GATEWAY_URL}/store-manager-api/stocks',
                 json={
                     "items": self.order_item_data,
@@ -44,10 +44,7 @@ class DecreaseStockHandler(Handler):
         """ Call StoreManager to delete order if stock decrease fails """
         try:
             response = requests.delete(
-                f'{config.API_GATEWAY_URL}/store-manager-api/orders',
-                json={
-                    "order_id": self.order_id
-                },
+                f'{config.API_GATEWAY_URL}/store-manager-api/orders/{self.order_id}',
                 headers={'Content-Type': 'application/json'}
             )
 

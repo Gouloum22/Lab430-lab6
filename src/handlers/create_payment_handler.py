@@ -36,8 +36,9 @@ class CreatePaymentHandler(Handler):
             payment_response = requests.post(
                 f'{config.API_GATEWAY_URL}/payments-api/payments',
                 json={
+                    "user_id": self.order_data.get("user_id"),
                     "order_id": self.order_id,
-                    "amount": self.total_amount
+                    "total_amount": self.total_amount
                 },
                 headers={'Content-Type': 'application/json'}
             )
@@ -56,7 +57,7 @@ class CreatePaymentHandler(Handler):
     def rollback(self):
         """ Call StoreManager to restore stock quantities if payment transaction creation fails """
         try:
-            response = requests.post(
+            response = requests.put(
                 f'{config.API_GATEWAY_URL}/store-manager-api/stocks',
                 json={
                     "items": self.order_data.get("items", []),
